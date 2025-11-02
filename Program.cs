@@ -2,6 +2,9 @@
 
 using Microsoft.AspNetCore.HttpLogging;
 using MyGuitarShop.Data.Ado.Factories;
+using MyGuitarShop.Data.Ado.Repository;
+using MyGuitarShop.Api.Controllers;
+using MyGuitarShop.Data.Ado.Entities;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
@@ -84,6 +87,10 @@ namespace MyGuitarShop.Api
                 ?? throw new InvalidOperationException("MyGuitarShop connection string not found.");
 
             builder.Services.AddSingleton(new SqlConnectionFactory(connectionString));
+
+            builder.Services.AddScoped<ProductRepo>();
+
+            //builder.Services.AddTransient();
 
             builder.Services.AddControllers();
         }
