@@ -10,9 +10,9 @@ namespace MyGuitarShop.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController(
-        ILogger<ProductsController> logger,
-        IRepository<ProductDto> repo)
+    public class AddressController(
+        ILogger<AddressController> logger,
+        IRepository<AddressesDto> repo)
         : ControllerBase
     {
         [HttpGet]
@@ -20,13 +20,13 @@ namespace MyGuitarShop.Api.Controllers
         {
             try
             {
-                var products = await repo.GetAllAsync();
+                var addresses = await repo.GetAllAsync();
 
-                return Ok(products);
+                return Ok(addresses);
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error fetching Products");
+                logger.LogError(ex, "Error fetching Addresses");
 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
@@ -37,39 +37,39 @@ namespace MyGuitarShop.Api.Controllers
         {
             try
             {
-                var product = await repo.FindByIdAsync(id);
-                if (product == null)
+                var address = await repo.FindByIdAsync(id);
+                if (address == null)
                 {
                     return NotFound();
                 }
-                return Ok(product);
+                return Ok(address);
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error retrieving product with ID {ProductID}", id);
+                logger.LogError(ex, "Error retrieving address with ID {AddressID}", id);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProductAsync(ProductDto newProduct)
+        public async Task<IActionResult> CreateAddressAsync(AddressesDto newAddress)
         {
             try
             {
-                var numberProductsCreated = await repo.InsertAsync(newProduct);
+                var numberAddressesCreated = await repo.InsertAsync(newAddress);
 
-                return Ok($"{numberProductsCreated} new products created");
+                return Ok($"{numberAddressesCreated} new addresses created");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message, "Error adding new product");
+                logger.LogError(ex.Message, "Error adding new address");
 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Interal server error");
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProductAsync(int id, ProductDto updatedProduct)
+        public async Task<IActionResult> UpdateAddressAsync(int id, AddressesDto updatedAddress)
         {
             try
             {
@@ -77,35 +77,35 @@ namespace MyGuitarShop.Api.Controllers
                 {
                     return NotFound($"Product with id {id} not found.");
                 }
-                var numberProductsUpdated = await repo.UpdateAsync(id, updatedProduct);
+                var numberAddressesUpdated = await repo.UpdateAsync(id, updatedAddress);
 
-                return Ok($"{numberProductsUpdated} products updated");
+                return Ok($"{numberAddressesUpdated} addresses updated");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message, "Error updating product ID {ProductID}", id);
+                logger.LogError(ex.Message, "Error updating address ID {AddressID}", id);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProductAsync(int id)
+        public async Task<IActionResult> DeleteAddressAsync(int id)
         {
             try
             {
                 if (await repo.FindByIdAsync(id) == null)
                 {
-                    return NotFound($"Product with {id} not found");
+                    return NotFound($"Address with {id} not found");
                 }
 
-                var numberProductsDeleted = await repo.DeleteAsync(id);
+                var numberAddressesDeleted = await repo.DeleteAsync(id);
 
-                return Ok($"{numberProductsDeleted} products deleted");
+                return Ok($"{numberAddressesDeleted} addresses deleted");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message, "Error deleting product with ID {ProductID}", id);
+                logger.LogError(ex.Message, "Error deleting addresses with ID {AddressID}", id);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
