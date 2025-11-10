@@ -7,6 +7,8 @@ using MyGuitarShop.Api.Controllers;
 using MyGuitarShop.Data.Ado.Entities;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using MyGuitarShop.Common.Interfaces;
+using MyGuitarShop.Common.DTOs;
 
 namespace MyGuitarShop.Api
 {
@@ -88,9 +90,7 @@ namespace MyGuitarShop.Api
 
             builder.Services.AddSingleton(new SqlConnectionFactory(connectionString));
 
-            builder.Services.AddScoped<ProductRepo>();
-
-            //builder.Services.AddTransient();
+            builder.Services.AddScoped<IRepository<ProductDto>, ProductRepo>();
 
             builder.Services.AddControllers();
         }
