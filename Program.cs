@@ -1,5 +1,3 @@
-
-
 using Microsoft.AspNetCore.HttpLogging;
 using MyGuitarShop.Data.Ado.Factories;
 using MyGuitarShop.Data.Ado.Repository;
@@ -7,6 +5,8 @@ using MyGuitarShop.Api.Controllers;
 using MyGuitarShop.Data.Ado.Entities;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using MyGuitarShop.Common.Interfaces;
+using MyGuitarShop.Common.DTOs;
 
 namespace MyGuitarShop.Api
 {
@@ -89,10 +89,14 @@ namespace MyGuitarShop.Api
             builder.Services.AddSingleton(new SqlConnectionFactory(connectionString));
 
             builder.Services.AddScoped<ProductRepo>();
-
-            builder.Services.AddScoped<AddressRepo>();
+            
+            /*builder.Services.AddScoped<AddressRepo>();
 
             builder.Services.AddScoped<AdminRepo>();
+
+            builder.Services.AddScoped<CategoriesRepo>();
+
+            builder.Services.AddScoped<CustomerRepo>();*/
 
             builder.Services.AddControllers();
         }
