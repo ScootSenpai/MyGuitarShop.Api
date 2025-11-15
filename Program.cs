@@ -88,15 +88,15 @@ namespace MyGuitarShop.Api
 
             builder.Services.AddSingleton(new SqlConnectionFactory(connectionString));
 
-            builder.Services.AddScoped<ProductRepo>();
-            
-            /*builder.Services.AddScoped<AddressRepo>();
+            builder.Services.AddScoped<IRepository<AddressesDto>, AddressRepo>();
 
-            builder.Services.AddScoped<AdminRepo>();
+            builder.Services.AddScoped<IRepository<AdminDto>, AdminRepo>();
 
-            builder.Services.AddScoped<CategoriesRepo>();
+            builder.Services.AddScoped<IRepository<CategoriesDto>, CategoriesRepo>();
 
-            builder.Services.AddScoped<CustomerRepo>();*/
+            builder.Services.AddScoped<IRepository<CustomerDto>, CustomerRepo>();
+
+            builder.Services.AddScoped<IRepository<ProductDto>, ProductRepo>();
 
             builder.Services.AddControllers();
         }
