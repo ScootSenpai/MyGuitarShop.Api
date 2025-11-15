@@ -90,7 +90,9 @@ namespace MyGuitarShop.Api
 
             builder.Services.AddScoped<ProductRepo>();
 
-            //builder.Services.AddTransient();
+            builder.Services.AddScoped<AddressRepo>();
+
+            builder.Services.AddScoped<AdminRepo>();
 
             builder.Services.AddControllers();
         }
