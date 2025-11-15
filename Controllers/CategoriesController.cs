@@ -7,9 +7,9 @@ namespace MyGuitarShop.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AdminController(
-        ILogger<AdminController> logger,
-        IRepository<AdminDto> repo)
+    public class CategoriesController(
+        ILogger<CategoriesController> logger,
+        IRepository<CategoriesDto> repo)
         : ControllerBase
     {
         [HttpGet]
@@ -17,13 +17,13 @@ namespace MyGuitarShop.Api.Controllers
         {
             try
             {
-                var admins = await repo.GetAllAsync();
+                var categories = await repo.GetAllAsync();
 
-                return Ok(admins);
+                return Ok(categories);
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error fetching Admins");
+                logger.LogError(ex, "Error fetching Categories");
 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
@@ -34,75 +34,75 @@ namespace MyGuitarShop.Api.Controllers
         {
             try
             {
-                var admin = await repo.FindByIdAsync(id);
-                if (admin == null)
+                var category = await repo.FindByIdAsync(id);
+                if (category == null)
                 {
                     return NotFound();
                 }
-                return Ok(admin);
+                return Ok(category);
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error retrieving admin with ID {AdminID}", id);
+                logger.LogError(ex, "Error retrieving category with ID {CategoryID}", id);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAdminAsync(AdminDto newAdmin)
+        public async Task<IActionResult> CreateCategoryAsync(CategoriesDto newCategory)
         {
             try
             {
-                var numberAdminsCreated = await repo.InsertAsync(newAdmin);
+                var numberCategoriesCreated = await repo.InsertAsync(newCategory);
 
-                return Ok($"{numberAdminsCreated} new admins created");
+                return Ok($"{numberCategoriesCreated} new categories created");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message, "Error adding new admin");
+                logger.LogError(ex.Message, "Error adding new category");
 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Interal server error");
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAdminAsync(int id, AdminDto updatedAdmin)
+        public async Task<IActionResult> UpdateCategoryAsync(int id, CategoriesDto updatedCategory)
         {
             try
             {
                 if (await repo.FindByIdAsync(id) == null)
                 {
-                    return NotFound($"Admin with id {id} not found.");
+                    return NotFound($"Category with id {id} not found.");
                 }
-                var numberAdminsUpdated = await repo.UpdateAsync(id, updatedAdmin);
+                var numberCategoryUpdated = await repo.UpdateAsync(id, updatedCategory);
 
-                return Ok($"{numberAdminsUpdated} admins updated");
+                return Ok($"{numberCategoryUpdated} categories updated");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message, "Error updating admin ID {AdminID}", id);
+                logger.LogError(ex.Message, "Error updating category ID {CategoryID}", id);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAdminAsync(int id)
+        public async Task<IActionResult> DeleteCategoryAsync(int id)
         {
             try
             {
                 if (await repo.FindByIdAsync(id) == null)
                 {
-                    return NotFound($"Admin with {id} not found");
+                    return NotFound($"Category with {id} not found");
                 }
 
-                var numberAdminsDeleted = await repo.DeleteAsync(id);
+                var numberCategoryDeleted = await repo.DeleteAsync(id);
 
-                return Ok($"{numberAdminsDeleted} admins deleted");
+                return Ok($"{numberCategoryDeleted} products deleted");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message, "Error deleting admins with ID {AdminID}", id);
+                logger.LogError(ex.Message, "Error deleting category with ID {CategoryID}", id);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
